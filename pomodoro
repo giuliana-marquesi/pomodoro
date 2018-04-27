@@ -10,11 +10,36 @@ CAMINHO_SOM_POMODORI=/usr/share/sounds/freedesktop/stereo/message-new-instant.og
 CAMINHO_SOM_POMODORO=/usr/share/sounds/freedesktop/stereo/complete.oga
 CAMINHO_SOM_INTERVALO=/usr/share/sounds/freedesktop/stereo/suspend-error.oga 
 
+timer() {
+	for ((i=0;i<=100;i+=1))
+	do
+		echo "$i"
+		sleep $1
+	done | zenity --progress --title=$NOME --text="$2 $3" --percentage="0" --auto-close --auto-kill
+}
+
 ativa_timer_notifica() {
 	aguarda=$(($3 * 60 / 100))
 	timer $aguarda $1 $2
 	zenity --title=$NOME --notification --text="Acabou o $1 $2"
 	paplay $4 
+}
+
+pergunta() {
+	if zenity --question --title=$NOME --width=$TAMANHO_JANELA --text="Você deseja ir para $1 $2?"
+	then
+		return 0
+	fi
+
+	sleep $AGUARDA_RESPOSTA
+	pergunta $1 $2
+}
+
+valida_continuacao() {
+	if pergunta $1 $2
+	then
+		ativa_timer_notifica $1 $2 $3 $4
+	fi
 }
 
 pomodori() {
@@ -29,31 +54,6 @@ pomodori() {
 			valida_continuacao "intervalo" $pom $INTERVALO_LONGO $CAMINHO_SOM_INTERVALO
 		fi
 	done
-}
-
-timer() {
-	for ((i=0;i<=100;i+=1))
-	do
-		echo "$i"
-		sleep $1
-	done | zenity --progress --title=$NOME --text="$2 $3" --percentage="0" --auto-close --auto-kill
-}
-
-valida_continuacao() {
-	if pergunta $1 $2
-	then
-		ativa_timer_notifica $1 $2 $3 $4
-	fi
-}
-
-pergunta() {
-	if zenity --question --title=$NOME --width=$TAMANHO_JANELA --text="Você deseja ir para $1 $2?"
-	then
-		return 0
-	fi
-
-	sleep $AGUARDA_RESPOSTA
-	pergunta $1 $2
 }
 
 main() {
