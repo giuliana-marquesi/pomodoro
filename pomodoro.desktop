@@ -2,7 +2,7 @@
 Version=1.0
 Name=Pomodoro
 Comment=Script que oferece o método pomodoro de forma simples
-Exec=/opt/pomodoro/pomodoro.sh
+Exec=/opt/pomodoro/pomodoro
 Icon=/opt/pomodoro/pomodoro.png
 Terminal=false
 Type=Application
