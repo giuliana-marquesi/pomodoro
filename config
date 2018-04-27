@@ -18,8 +18,8 @@ instala_dependencias() {
 permissiona() {
 	chmod 644 pomodoro.desktop
 	chown root pomodoro.desktop
-	chmod 751 pomodoro.sh
-	chown $(logname) pomodoro.sh
+	chmod 751 pomodoro
+	chown $(logname) pomodoro
 	chmod 644 pomodoro.png
 	chown $(logname) pomodoro.png
 }
@@ -82,7 +82,7 @@ then
 	echo "Não foi possível criar a pasta pomodoro no caminho /opt/"
 	exit 1
 fi
-if ! mv pomodoro.png pomodoro.sh /opt/pomodoro/
+if ! mv pomodoro.png pomodoro /opt/pomodoro/
 then
 	echo "Não foi possível mover os arquivos pomodoro.png e pomodoro.sh para o caminho /opt/pomodoro"
 	exit 1
